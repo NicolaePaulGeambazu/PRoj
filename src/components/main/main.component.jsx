@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Acc, Search, Small, Title, Wrapper } from "./main.style";
+import { Acc, Box1, Box2, Search, Small, Title, Wrapper } from "./main.style";
 import all from "../../assets/images/all.svg";
 import neu from "../../assets/images/neu.svg";
 import top from "../../assets/images/top.svg";
-import Image1 from "../../assets/images/1.png";
-import { imaget } from "../../assets";
+// console.log(imina)
 
 export const Main = () => {
   const [data, setData] = useState("");
   const [search, setSearch] = useState("");
+
+  this.state = {
+    
+      "titleGame":"Hotline",
+      "image":"https://www.google.com/url?sa=i&url=https%3A%2F%2Fm.blacktype.bet%2Fcasino%2Fnew-games%2F&psig=AOvVaw2YR0LNXIJiUi0DvQ27BuSM&ust=1627856725273000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMCq14CtjvICFQAAAAAdAAAAABAD",
+      "feature":"1"
+    
+  }
 
   useEffect(() => {
     fetch("http://localhost:3800/Design")
@@ -35,53 +42,34 @@ export const Main = () => {
         </Acc>
       </Title>
       <Wrapper>
-        {images
-          // ?.sort(function(a, b){
-          //   return a - b;
-          // }).filter((val) => {
-          //   if (search === "") {
-          //     return val;
-          //   } else if (
-          //     val.titleGame.toLowerCase().includes(search.toLocaleLowerCase())
-          //   ) {
-          //     return val;
-          //   }
-          // })
+        {this.state
+          ?.sort((a, b) => {
+            if (a.feature < b.feature) return -1;
+            if (a.feature > b.feature) return 1;
+            return 0;
+          })
+          .filter((val) => {
+            if (search === "") {
+              return val;
+            } else if (
+              val.titleGame.toLowerCase().includes(search.toLocaleLowerCase())
+            ) {
+              return val;
+            }
+            return 0
+          })
           .map((stuff) => {
+            console.log(stuff)
             return (
               <div>
                 <Small
-                  src={stuff?.image}
-                  alt=""
-                  style={{ width: 100, height: 100 }}
+                  src={this.state.image} 
                 />
-                {/* <Box2></Box2>
-              <Box3></Box3>
-              <Small></Small>
-              <Small/>
-              <Small></Small>
-              <Small></Small>
-              <Small></Small>
-              <Small></Small>
-              <Small></Small>
-              <Small></Small>
-              <Small></Small>
-              <Small></Small>
-              <Small></Small>
-              <Small></Small>
-              <Small></Small>
-              <Small></Small>
-              <Small></Small>
-              <Box18></Box18>
-              <Small></Small>
-              <Small></Small>
-              <Small></Small> */}
               </div>
             );
           })}
+
       </Wrapper>
-      <Small src={imaget.image_1} alt="" styled={{ width: 100, height: 100 }} />
-      
     </>
   );
 };
