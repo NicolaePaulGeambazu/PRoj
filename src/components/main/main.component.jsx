@@ -1,11 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { Acc, Box1, Box2, Search, Small, Title, Wrapper } from "./main.style";
+import { Acc, BarSearch, Box1, Box18, Box3, Icon, Search, SearchPoint, Small, Title, Wrapper } from "./main.style";
 import all from "../../assets/images/all.svg";
 import neu from "../../assets/images/neu.svg";
-import top from "../../assets/images/top.svg";
-// console.log(imina)
+import top from "../../assets/images/top.svg"
+import ico from '../main/images/ico_search.png'
 
+function parseFetchDesign(response) {
+  const obj = JSON.parse(response);
+  for (var i = 0; i < obj.images.length; i++) {
+    var imagineJoc = obj.images[i].image; // patul catre imagine
+    var titluJoc = obj.images[i].titleGame; // titlul jocului
+    var featureJoc = obj.images[i].feature; // acel feature care vad ca mai e precizat
 
+    /// incarcam imaginile, titlurile, etc
+    try {
+      var pfp = require(imagineJoc);
+      document.getElementById("imagine" + (i + 1).toString()).src = pfp.default;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+}
+
+var imgjoc = require("../../assets/images/1.png");
 
 export const Main = () => {
   const [data, setData] = useState("");
@@ -17,23 +34,27 @@ export const Main = () => {
       .then((res) => setData(res));
   }, []);
 
-
   const { images = [] } = data;
   return (
     <>
       <Title>
         {data?.title}
         <Acc>
-          <img src={all} alt="all" />
-          <img src={neu} alt="new" />
-          <img src={top} alt="top" />
+          <Icon src={all} alt="all" />
+          <Icon src={neu} alt="new" />
+          <Icon src={top} alt="top" />
+          <BarSearch>
           <Search
+          
             type="text"
             placeholder="Search..."
             onChange={(event) => {
               setSearch(event.target.value);
             }}
           />
+          <SearchPoint src={ico}/>
+          </BarSearch>
+            
         </Acc>
       </Title>
       <Wrapper>
@@ -51,19 +72,27 @@ export const Main = () => {
             ) {
               return val;
             }
-            return 0
+            return 0;
           })
           .map((stuff, idx) => {
-            console.log(stuff)
-            return (
-              <div id={idx}>
-                <Small
-                  src={stuff?.image} 
-                />
-              </div>
-            );
+            // console.log("./images/" + stuff.image + ".png")
+            var pth = "./images/1.png";
+            var index = "1";
+            imgjoc = require("./images/" + stuff.image + ".png").default;
+            if (idx === 9) {
+              return <Box18 src={imgjoc}/>;
+            } else {
+              if (idx === 18) {
+                return <Box3 src={imgjoc} />;
+              } else {
+                return (
+                  <div id={idx}>
+                    <Small src={imgjoc} />
+                  </div>
+                );
+              }
+            }
           })}
-
       </Wrapper>
     </>
   );
