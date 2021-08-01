@@ -5,23 +5,18 @@ import neu from "../../assets/images/neu.svg";
 import top from "../../assets/images/top.svg";
 // console.log(imina)
 
+
+
 export const Main = () => {
   const [data, setData] = useState("");
   const [search, setSearch] = useState("");
-
-  this.state = {
-    
-      "titleGame":"Hotline",
-      "image":"https://www.google.com/url?sa=i&url=https%3A%2F%2Fm.blacktype.bet%2Fcasino%2Fnew-games%2F&psig=AOvVaw2YR0LNXIJiUi0DvQ27BuSM&ust=1627856725273000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMCq14CtjvICFQAAAAAdAAAAABAD",
-      "feature":"1"
-    
-  }
 
   useEffect(() => {
     fetch("http://localhost:3800/Design")
       .then((res) => res.json())
       .then((res) => setData(res));
   }, []);
+
 
   const { images = [] } = data;
   return (
@@ -42,7 +37,7 @@ export const Main = () => {
         </Acc>
       </Title>
       <Wrapper>
-        {this.state
+        {images
           ?.sort((a, b) => {
             if (a.feature < b.feature) return -1;
             if (a.feature > b.feature) return 1;
@@ -58,12 +53,12 @@ export const Main = () => {
             }
             return 0
           })
-          .map((stuff) => {
+          .map((stuff, idx) => {
             console.log(stuff)
             return (
-              <div>
+              <div id={idx}>
                 <Small
-                  src={this.state.image} 
+                  src={stuff?.image} 
                 />
               </div>
             );
